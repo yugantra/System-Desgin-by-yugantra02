@@ -1,0 +1,110 @@
+/*
+Interface = Blueprint of a system.
+
+Here we are taking an easy System Design example of a
+"Food Delivery System" like Swiggy/Zomato.
+
+The interface only tells WHAT operations are available.
+It hides HOW everything works internally.
+*/
+interface FoodDeliverySystem {
+
+    void loginUser();
+    void searchRestaurant(String restaurantName);
+    void placeOrder(String item);
+    void trackOrder();
+    void cancelOrder();
+}
+
+/*
+Concrete Class
+
+This class provides the actual implementation details
+of the Food Delivery System.
+*/
+class SwiggyApp implements FoodDeliverySystem {
+
+    String userName;
+    boolean isLoggedIn = false;
+    String currentOrder = "";
+
+    public SwiggyApp(String userName) {
+        this.userName = userName;
+    }
+
+    @Override
+    public void loginUser() {
+        isLoggedIn = true;
+        System.out.println(userName + " logged into Swiggy App");
+    }
+
+    @Override
+    public void searchRestaurant(String restaurantName) {
+
+        if (!isLoggedIn) {
+            System.out.println("Please login first.");
+            return;
+        }
+
+        System.out.println("Searching restaurant: " + restaurantName);
+    }
+
+    @Override
+    public void placeOrder(String item) {
+
+        if (!isLoggedIn) {
+            System.out.println("Please login first.");
+            return;
+        }
+
+        currentOrder = item;
+
+        System.out.println("Order placed for: " + currentOrder);
+    }
+
+    @Override
+    public void trackOrder() {
+
+        if (currentOrder.equals("")) {
+            System.out.println("No active order found.");
+            return;
+        }
+
+        System.out.println("Tracking Order: " + currentOrder);
+        System.out.println("Delivery Partner is on the way...");
+    }
+
+    @Override
+    public void cancelOrder() {
+
+        if (currentOrder.equals("")) {
+            System.out.println("No order to cancel.");
+            return;
+        }
+
+        System.out.println("Order cancelled: " + currentOrder);
+        currentOrder = "";
+    }
+}
+
+/*
+Main Class
+*/
+public class Aditya {
+
+    public static void main(String[] args) {
+
+        // Interface Reference -> Concrete Class Object
+        FoodDeliverySystem userApp = new SwiggyApp("Aditya");
+
+        userApp.loginUser();
+
+        userApp.searchRestaurant("Burger King");
+
+        userApp.placeOrder("Veg Burger");
+
+        userApp.trackOrder();
+
+        userApp.cancelOrder();
+    }
+}
